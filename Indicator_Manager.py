@@ -1,4 +1,3 @@
-from Indicators._RSI_Indicator import RSI
 import Candle_Manager
 import File_Loader
 
@@ -10,10 +9,14 @@ def load_indicators():
     for indi in indicators:
         __loaded_indicators.append(indi)
 
+def set_indicator(name, **kwargs):
+    indicator = next((x for x in __loaded_indicators if x.name == name), None)
+    indicator.set_values(**kwargs)
+
 def get_indicatordata(name, length):
     candles = Candle_Manager.get_candles(length=500)
     indicator = next((x for x in __loaded_indicators if x.name == name), None)
     points = []
     for i in range(length):
-        points.append(indicator.get_points())
+        points.append(indicator.get_points(candles[i:i+50]))
     return points

@@ -12,6 +12,5 @@ def get_objects(folder):
         if f[index2+1] == '_':          
             modulename = f[index2+2:index]
             my_module = imp.load_source(modulename,f)
-            my_class = getattr(my_module, modulename)
-            modules.append(my_class)
+            modules.append(my_module)
     return modules

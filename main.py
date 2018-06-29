@@ -26,6 +26,7 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     app.setApplicationName("CryptoPrinter")
     Indicator_Manager.load_indicators()
+    Indicator_Manager.set_indicator('RSI', length=20)
     window = MainWindow()
     app.exec_()
     
