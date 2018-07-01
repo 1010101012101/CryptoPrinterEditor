@@ -3,8 +3,10 @@ from HelperClasses import Translator
 import Helper
 
 class ChartPlotter(QtWidgets.QGraphicsView):
+
     def __init__(self, *args, **kwargs):
         super(QtWidgets.QGraphicsView,self).__init__(*args,**kwargs)
+        self.plotcut = 0.2
 
     def plot_chart(self, candles):
         self.scene = QtWidgets.QGraphicsScene()
@@ -13,7 +15,8 @@ class ChartPlotter(QtWidgets.QGraphicsView):
         candleswidth = self.width()/len(candles)
         y_trans = Translator(extremes['min'],
                             extremes['max'],
-                            0, self.height())
+                            0 +  self.height() * self.plotcut
+                            , self.height() - self.height() * self.plotcut)
         x_trans = Translator(0, len(candles),
                             self.width(),0 )
         for i in range(len(candles)-1):
@@ -40,10 +43,11 @@ class IndicatorPlotter(QtWidgets.QGraphicsView):
     def plot_indicator(self, indicatordata):
         self.scene = QtWidgets.QGraphicsScene()
         self.setScene(self.scene)
+        pen = QtGui.QPen(QtCore.Qt.black,3)
         y_trans = Translator(0, 100, 0, self.height())
         x_trans = Translator(0, len(indicatordata), 
                                 self.width(),0 )
         for i in range(len(indicatordata)-1):
             self.scene.addLine(x_trans.t(i),y_trans.t(indicatordata[i]),
-                                x_trans.t(i-1),y_trans.t(indicatordata[i-1]))
+                                x_trans.t(i-1),y_trans.t(indicatordata[i-1]),pen)
         

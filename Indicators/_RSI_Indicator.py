@@ -2,11 +2,11 @@
 name = 'RSI'
 __values = {'multiplier': 1, 'length': 14, }
 
-def set_values(**kwargs):
-    for key in kwargs:
-        for key2 in __values:
-            if key is key2:
-                __values[key] = kwargs[key]
+def set_values(key, value):
+    __values[key] = int(value)
+
+def get_values():
+    return __values
 
 def get_points(candles):
     length = __values['length']
@@ -15,7 +15,10 @@ def get_points(candles):
         newaverages = __get_averages(candles[i:length+i])
         averages['gain'] = (averages['gain'] * (length-1) + newaverages['gain']) / length
         averages['loss'] = (averages['loss'] * (length-1) + newaverages['loss']) / length
-    RS = averages['gain'] / averages['loss']
+    try:
+        RS = averages['gain'] / averages['loss']
+    except:
+        RS = 0
     RSI = 100 - (100/(1+RS))
     return RSI * __values['multiplier']
       
