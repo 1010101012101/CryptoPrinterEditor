@@ -27,7 +27,7 @@ def __request_data(endpoint, printResult=False, params=None):
 def printPing():
     __request_data('servertime',printResult=True)
 
-def getKlines(symbol,interval='1m',limit=100):
+def getKlines(symbol,interval='1m',limit=1000):
     params = {'symbol': symbol,'interval': interval,'limit': limit}
     return(__request_data('klines',params=params))
 

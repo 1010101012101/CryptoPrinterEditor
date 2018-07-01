@@ -17,10 +17,11 @@ def get_points(candles):
         averages['loss'] = (averages['loss'] * (length-1) + newaverages['loss']) / length
     try:
         RS = averages['gain'] / averages['loss']
+        RSI = 100 - (100/(1+RS))
+        return RSI * __values['multiplier']
     except:
-        RS = 0
-    RSI = 100 - (100/(1+RS))
-    return RSI * __values['multiplier']
+        return None
+    
       
 def __get_averages(candles):
     gain = 0

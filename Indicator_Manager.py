@@ -22,12 +22,17 @@ def get_indicator_values(name):
     return(indicator.get_values())
 
 def get_indicatordata(name, length):
-    candles = Candle_Manager.get_candles(length=500)
+    candles = Candle_Manager.get_candles(length=length+50)
     indicator = __get_indicator_by_name(name)
     points = []
     for i in range(length):
-            points.append(indicator.get_points(candles[i:i+50]))
+            newpoint = indicator.get_points(candles[i:i+50])
+            if newpoint is not None:
+                points.append(newpoint)
     return points
+
+def get_activeindicatordata(length):
+    return [0 for x in range(length)]
 
 def __get_indicator_by_name(name):
     return(next((x for x in __loaded_indicators if x.name == name), None))
