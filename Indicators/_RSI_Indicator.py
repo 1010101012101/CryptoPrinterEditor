@@ -18,6 +18,7 @@ def get_points(candles):
     try:
         RS = averages['gain'] / averages['loss']
         RSI = 100 - (100/(1+RS))
+        RSI = (RSI - 50) * 2
         return RSI * __values['multiplier']
     except:
         return None

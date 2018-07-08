@@ -49,7 +49,7 @@ class Ui_MainWindow(object):
         self.length_slider.setMinimum(10)
         self.length_slider.setMaximum(500)
         self.length_slider.setSingleStep(10)
-        self.length_slider.setProperty("value", 200)
+        self.length_slider.setProperty("value", 100)
         self.length_slider.setTracking(True)
         self.length_slider.setOrientation(QtCore.Qt.Horizontal)
         self.length_slider.setInvertedAppearance(False)
