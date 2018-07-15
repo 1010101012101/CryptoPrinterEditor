@@ -10,8 +10,8 @@ class ChartPlotter(QtWidgets.QGraphicsView):
         self.currentCandle = []
         self.indicatorItems = []
         self.currentIndicator = []
-        self.chartsize = 0.55
-        self.indicatorsize = 0.3
+        self.chartsize = 0.6
+        self.indicatorsize = 0.25
         self.space = (1-(self.chartsize+self.indicatorsize))/4
         self.widthspace = 0.09
         self.candleWidth = 0.65
@@ -162,7 +162,7 @@ class ChartPlotter(QtWidgets.QGraphicsView):
                             self.width() - (self.width()*self.widthspace),0)
 
     def __calculate_indicator_translations(self, indicatordata):
-        self.indi_y_trans = Translator(-150, 150, 
+        self.indi_y_trans = Translator(150, -150, 
                             self.height() * (self.chartsize + (self.space*2)), 
                             self.height() - (self.height() * self.space))
         self.indi_x_trans = Translator(0, len(indicatordata), 

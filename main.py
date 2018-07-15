@@ -92,7 +92,6 @@ class MainWindow(Ui_MainWindow,QtWidgets.QMainWindow):
         self.indicatorsettings_view.add_items(name,values)
         self.currentindicator = name
 
-    
 if __name__ == '__main__':  
     app = QtWidgets.QApplication(sys.argv)
     app.setApplicationName("CryptoPrinter") 

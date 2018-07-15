@@ -10,11 +10,7 @@ def get_values():
 
 def get_points(candles):
     length = __values['length']
-    averages = __get_averages(candles[:length])
-    for i in range(1,length):
-        newaverages = __get_averages(candles[i:length+i])
-        averages['gain'] = (averages['gain'] * (length-1) + newaverages['gain']) / length
-        averages['loss'] = (averages['loss'] * (length-1) + newaverages['loss']) / length
+    averages = __get_averages(candles[:length+1])
     try:
         RS = averages['gain'] / averages['loss']
         RSI = 100 - (100/(1+RS))
@@ -23,12 +19,13 @@ def get_points(candles):
     except:
         return None
     
-      
 def __get_averages(candles):
     gain = 0
     loss = 0
-    for candle in candles:
-        dif = candle.close - candle.open
+    for i in range(__values['length']):
+        ccandle = candles[i]
+        lcandle = candles[i+1]
+        dif = ccandle.close - lcandle.close
         if dif >= 0:
             gain += dif
         else:
