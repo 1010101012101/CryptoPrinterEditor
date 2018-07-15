@@ -21,6 +21,7 @@ class ChartPlotter(QtWidgets.QGraphicsView):
         self.indi_y_trans = None
         self.green = QtGui.QColor(46, 204, 113)
         self.red = QtGui.QColor(231, 76, 60)
+        self.lastprint = ''
 
     def init_plotter(self):
         self.set_newscene()
@@ -179,12 +180,30 @@ class ChartPlotter(QtWidgets.QGraphicsView):
                 newline = QtWidgets.QGraphicsLineItem(self.indi_x_trans.t(i),self.indi_y_trans.t(indicatordata[i]),
                                                     self.indi_x_trans.t(i-1),self.indi_y_trans.t(indicatordata[i-1]))
                 newline.setPen(pen)
+                currentindi = indicatordata[i]
+                actionline = False
+                if currentindi>100:
+                    if self.lastprint is not 'short':
+                        self.lastprint = 'short'
+                        actionline = True
+                        pen2 = QtGui.QPen(self.red, 2, QtCore.Qt.DashLine)
+                if currentindi<-100:
+                    if self.lastprint is not 'long':
+                        self.lastprint = 'long'
+                        actionline = True
+                        pen2 = QtGui.QPen(self.green, 2, QtCore.Qt.DashLine)
+
+                if actionline is True:
+                    x = self.indi_x_trans.t(i)
+                    y1 = self.height() * self.space
+                    y2 = self.height() - (self.height() * self.space)
+                    newline2 = QtWidgets.QGraphicsLineItem(x,y1,x,y2)
+                    newline2.setPen(pen2)
+                    self.scene.addItem(newline2)
+                    self.indicatorItems.append(newline2)  
+
                 self.scene.addItem(newline)
                 self.indicatorItems.append(newline)
-        #self.scene.addLine(0, y_trans.t(100), self.width(), y_trans.t(100))
-        #self.scene.addLine(0, y_trans.t(-100), self.width(), y_trans.t(-100))
-
-    
 
     def plot_currentIndicator(self, indicatordata):
         pen = QtGui.QPen(QtCore.Qt.black,2)
@@ -194,6 +213,27 @@ class ChartPlotter(QtWidgets.QGraphicsView):
         newline = QtWidgets.QGraphicsLineItem(self.indi_x_trans.t(1),self.indi_y_trans.t(indicatordata[1]),
                                             self.indi_x_trans.t(0),self.indi_y_trans.t(indicatordata[0]))
         newline.setPen(pen)
+        actionline = False
+        currentindi = indicatordata[0]
+        if currentindi>100:
+            if self.lastprint is not 'short':
+                self.lastprint = 'short'
+                actionline = True
+                pen2 = QtGui.QPen(self.red, 2, QtCore.Qt.DashLine)
+        if currentindi<-100:
+            if self.lastprint is not 'long':
+                self.lastprint = 'long'
+                actionline = True
+                pen2 = QtGui.QPen(self.green, 2, QtCore.Qt.DashLine)
+
+        if actionline is True:
+            x = self.indi_x_trans.t(0)
+            y1 = self.height() * self.space
+            y2 = self.height() - (self.height() * self.space)
+            newline2 = QtWidgets.QGraphicsLineItem(x,y1,x,y2)
+            newline2.setPen(pen2)
+            self.scene.addItem(newline2)
+            self.indicatorItems.append(newline2)  
         self.scene.addItem(newline)
         self.currentIndicator.append(newline)
 

@@ -1,6 +1,6 @@
 
 name = 'RSI'
-__values = {'multiplier': 1, 'length': 14, }
+__values = {'multiplier': 1, 'length': 14}
 
 def set_values(key, value):
     __values[key] = int(value)
