@@ -37,8 +37,10 @@ def get_activeindicatordata(length):
         for i in range(len(points)):
             addedpoints[i] += points[i]
     return addedpoints
-        
 
+def get_activeindicators():
+    return __active_indicators
+        
 def __get_indicatorpoints(indicator, candles, length):
     points = []
     for i in range(length):
@@ -54,7 +56,6 @@ def add_to_active(name):
 def remove_from_active(name):
     indicator = __get_indicator_by_name(name)
     __active_indicators.remove(indicator)
-
 
 def __get_indicator_by_name(name):
     return(next((x for x in __loaded_indicators if x.name == name), None))

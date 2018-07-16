@@ -2,7 +2,7 @@ import Helper
 import math
 
 name = 'BollingerBands'
-__values = {'multiplier': 1, 'length': 14, 'deviation': 2}
+__values = {'multiplier': 0.7, 'length': 20, 'deviation': 2}
 
 def set_values(key, value):
     __values[key] = float(value)
@@ -13,7 +13,7 @@ def get_values():
 def get_points(candles):
     length = int(__values['length'])
     deviation = int(__values['deviation'])
-    upband, midband, lowband = __get_bands(candles, length, deviation)
+    upband, lowband = __get_bands(candles, length, deviation)
     candle = candles[0]
     low_dif = candle.close - lowband
     up_dif = upband - candle.close
@@ -36,6 +36,6 @@ def __get_bands(candles, length, deviations):
     bandvalue = math.sqrt(bandvalue)
     upband = sma + (2 * bandvalue)
     lowband = sma - (2 * bandvalue)
-    return upband, sma, lowband
+    return upband, lowband
 
     

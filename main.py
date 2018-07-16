@@ -5,6 +5,8 @@ import Indicator_Manager
 import File_Loader
 import InstanceHolder
 import queue
+import XML_Writer
+import os
 
 from PyQt5 import QtCore,QtWidgets,QtGui
 from Ui_mainUI import Ui_MainWindow
@@ -26,6 +28,8 @@ class MainWindow(Ui_MainWindow,QtWidgets.QMainWindow):
         self.interval_comboBox.addItems(['1m','3m','5m','15m','30m','1h','12h','1d','1w','1M'])
         self.indicatoroverview_view.add_items(Indicator_Manager.get_indicator_names())
         self.saveindicator_button.pressed.connect(self.on_save_indicator)
+        self.save_button.pressed.connect(self.save_data)
+        self.path_input.setText(os.path.dirname(os.path.realpath(__file__))+ "/IndicatorTemplates/")
         self.currentStream = ''
         self.lastindicator = "Overview"
         self.add_queueitem('init_plotter')
@@ -44,6 +48,14 @@ class MainWindow(Ui_MainWindow,QtWidgets.QMainWindow):
     
     def add_queueitem(self, task):
         self.workqueue.put(task)
+
+    def save_data(self):
+        path = self.path_input.text()
+        if path.find('.xml') is -1:
+            path += ".xml"
+        symbol = self.symbol_input.text()
+        timeframe = self.interval_comboBox.currentText()
+        XML_Writer.save_data(path,symbol, timeframe)
 
     def plot_currentCandle(self):
         requestlength = self.length_slider.value()

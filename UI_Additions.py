@@ -170,24 +170,26 @@ class ChartPlotter(QtWidgets.QGraphicsView):
                             self.width()- self.width()*self.widthspace,0 )
           
     def plot_indicator(self, indicatordata):      
+        self.lastprint = ''
         pen = QtGui.QPen(QtCore.Qt.black,2)      
         self.__calculate_indicator_translations(indicatordata)
         for indicator in self.indicatorItems:
             self.scene.removeItem(indicator)
         self.indicatorItems.clear()
-        for i in range(len(indicatordata)-1):
-            if i > 1:
+        for j in range(len(indicatordata)):
+            i = len(indicatordata) - j - 2
+            if i > 0:
                 newline = QtWidgets.QGraphicsLineItem(self.indi_x_trans.t(i),self.indi_y_trans.t(indicatordata[i]),
                                                     self.indi_x_trans.t(i-1),self.indi_y_trans.t(indicatordata[i-1]))
                 newline.setPen(pen)
                 currentindi = indicatordata[i]
                 actionline = False
-                if currentindi>100:
+                if currentindi <= 100 and indicatordata[i+1] > 100:
                     if self.lastprint is not 'short':
                         self.lastprint = 'short'
                         actionline = True
                         pen2 = QtGui.QPen(self.red, 2, QtCore.Qt.DashLine)
-                if currentindi<-100:
+                if currentindi >= -100 and indicatordata[i+1] < -100:
                     if self.lastprint is not 'long':
                         self.lastprint = 'long'
                         actionline = True
@@ -215,16 +217,12 @@ class ChartPlotter(QtWidgets.QGraphicsView):
         newline.setPen(pen)
         actionline = False
         currentindi = indicatordata[0]
-        if currentindi>100:
-            if self.lastprint is not 'short':
-                self.lastprint = 'short'
-                actionline = True
-                pen2 = QtGui.QPen(self.red, 2, QtCore.Qt.DashLine)
-        if currentindi<-100:
-            if self.lastprint is not 'long':
-                self.lastprint = 'long'
-                actionline = True
-                pen2 = QtGui.QPen(self.green, 2, QtCore.Qt.DashLine)
+        if currentindi <= 100 and indicatordata[1] > 100:         
+            actionline = True
+            pen2 = QtGui.QPen(self.red, 2, QtCore.Qt.DashLine)
+        if currentindi >= -100 and indicatordata[1] < -100:
+            actionline = True
+            pen2 = QtGui.QPen(self.green, 2, QtCore.Qt.DashLine)
 
         if actionline is True:
             x = self.indi_x_trans.t(0)
@@ -234,6 +232,7 @@ class ChartPlotter(QtWidgets.QGraphicsView):
             newline2.setPen(pen2)
             self.scene.addItem(newline2)
             self.indicatorItems.append(newline2)  
+
         self.scene.addItem(newline)
         self.currentIndicator.append(newline)
 

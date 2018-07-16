@@ -1,4 +1,5 @@
 
+version = "0.1"
 __instances = []
 
 def add_instance(instance, name):

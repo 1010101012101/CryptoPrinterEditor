@@ -2,7 +2,7 @@ import Helper
 import math
 
 name = 'Aroon'
-__values = {'multiplier': 1, 'length': 14}
+__values = {'multiplier': 0.7, 'length': 20}
 
 def set_values(key, value):
     __values[key] = float(value)
@@ -13,7 +13,7 @@ def get_values():
 def get_points(candles):
     length = int(__values['length'])
     diff = __get_aroon_value(candles,length)
-    diff2 = math.pow(1.1, -1 * abs(diff) + 40)
+    diff2 = - abs(diff) + 100
     if diff2 > 100:
         diff2 = 100
     if diff < 0:
