@@ -1,0 +1,20 @@
+<printerTemplate>
+  <version>0.1</version>
+  <tradingSymbol>BTCUSDT</tradingSymbol>
+  <tradingInterval>1m</tradingInterval>
+  <indicators>
+    <BollingerBands>
+      <multiplier>0.6</multiplier>
+      <length>20.0</length>
+      <deviation>1.0</deviation>
+    </BollingerBands>
+    <Aroon>
+      <multiplier>0.6</multiplier>
+      <length>10.0</length>
+    </Aroon>
+    <RSI>
+      <multiplier>1.0</multiplier>
+      <length>8.0</length>
+    </RSI>
+  </indicators>
+</printerTemplate>

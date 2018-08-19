@@ -1,5 +1,6 @@
 import Helper
 import math
+import Value_Smoother
 
 name = 'Aroon'
 __values = {'multiplier': 0.7, 'length': 20}
@@ -13,7 +14,7 @@ def get_values():
 def get_points(candles):
     length = int(__values['length'])
     diff = __get_aroon_value(candles,length)
-    diff2 = - abs(diff) + 100
+    diff2 = Value_Smoother.linear_changer(diff)
     if diff2 > 100:
         diff2 = 100
     if diff < 0:

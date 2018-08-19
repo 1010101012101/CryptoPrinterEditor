@@ -38,11 +38,11 @@ class ChartPlotter(QtWidgets.QGraphicsView):
     def plot_frame(self):
         width = self.width()-8
         height = self.height()-8
-        y_trans = Translator(0, 1, 0, self.height())
-        x_trans = Translator(0,1,0,width)
+        y_trans = Translator(0, 1, 0, height)
+        x_trans = Translator(0, 1, 0, width)
 
         textItems = []
-        x = x_trans.t(1- self.widthspace) + 10
+        x = x_trans.t(1 - self.widthspace) + 10
         y1 = y_trans.t(self.space)
         self.scene.addLine(0,y1,x,y1,QtGui.QPen(QtCore.Qt.DashLine))  
         self.top_text = TextPairWidget()

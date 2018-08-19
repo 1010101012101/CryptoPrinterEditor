@@ -1,6 +1,5 @@
-import Value_Smoother
-
-name = 'RSI'
+import TA_Helper
+name = 'MACD'
 __values = {'multiplier': 1, 'length': 10}
 
 def set_values(key, value):
@@ -21,15 +20,10 @@ def get_points(candles):
     except:
         return None
     
-def __get_averages(candles, length):
-    gain = 0
-    loss = 0
-    for i in range(length):
-        ccandle = candles[i]
-        lcandle = candles[i+1]
-        dif = ccandle.close - lcandle.close
-        if dif >= 0:
-            gain += dif
-        else:
-            loss -= dif
-    return {'gain': gain, 'loss': loss}
+def __get_ema(candles, length):
+    candles = candles.reverse()
+    #for i in range(length):
+    #    if i is 0:
+    #        TA_Helper.get_sma(candles, length)
+        
+    #return {'gain': gain, 'loss': loss}
