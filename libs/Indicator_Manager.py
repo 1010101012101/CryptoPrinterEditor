@@ -1,13 +1,15 @@
-import Candle_Manager
-import File_Loader
+import libs.Candle_Manager as Candle_Manager
+import libs.File_Loader as File_Loader
+
+import talib
 
 __loaded_indicators = []
 __active_indicators = []
 
 def load_indicators():
-    indicators = File_Loader.get_objects('Indicators')
+    indicators = talib.get_functions()
     for indi in indicators:
-        __loaded_indicators.append(indi)
+        pass
 
 def set_indicator(name, key, value):
     indicator = __get_indicator_by_name(name)
@@ -27,7 +29,7 @@ def get_indicatordata(name, length):
     return __get_indicatorpoints(indicator, candles, length)
     
 def get_activeindicatordata(length):
-    candles = Candle_Manager.get_candles(length=length+50)
+    candles = Candle_Manager.get_OHLCVs()
     allpoints = []
     for indicator in __active_indicators:
         allpoints.append(__get_indicatorpoints(indicator,candles,length))
@@ -44,7 +46,7 @@ def get_activeindicators():
 def __get_indicatorpoints(indicator, candles, length):
     points = []
     for i in range(length):
-            newpoint = indicator.get_points(candles[i:i+50])
+            newpoint = indicator.get_points(candles)
             if newpoint is not None:
                 points.append(newpoint)
     return points

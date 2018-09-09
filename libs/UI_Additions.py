@@ -1,7 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from HelperClasses import Translator
-import Helper
-import Indicator_Manager
+
+from libs.HelperClasses import Translator
+import libs.Helper as Helper
+import libs.Indicator_Manager as Indicator_Manager
 
 class ChartPlotter(QtWidgets.QGraphicsView):
     def __init__(self, *args, **kwargs):

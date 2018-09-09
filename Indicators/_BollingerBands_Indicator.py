@@ -2,6 +2,7 @@ import Helper
 import math
 import Value_Smoother
 import TA_Helper
+from talib import abstract
 
 name = 'BollingerBands'
 __values = {'multiplier': 0.7, 'length': 20, 'deviation': 2}
@@ -15,7 +16,8 @@ def get_values():
 def get_points(candles):
     length = int(__values['length'])
     deviation = int(__values['deviation'])
-    upband, lowband = __get_bands(candles, length, deviation)
+    BBAND = abstract.Function('BBAND')
+    upband, _ ,lowband = BBAND(candles, __values['length'])
     candle = candles[0]
     low_dif = candle.close - lowband
     up_dif = upband - candle.close

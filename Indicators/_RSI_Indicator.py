@@ -1,4 +1,7 @@
 import Value_Smoother
+import talib
+import numpy as np
+import pandas as pd
 
 name = 'RSI'
 __values = {'multiplier': 1, 'length': 10}
@@ -11,15 +14,9 @@ def get_values():
 
 def get_points(candles):
     length = int(__values['length'])
-    averages = __get_averages(candles[:length+1],length)
-    try:
-        RS = averages['gain'] / averages['loss']
-        RSI = 100 - (100/(1+RS))
-        RSI = (RSI - 50) * 2
-        #RSI = Value_Smoother.exponential_smoother(RSI)
-        return RSI * __values['multiplier']
-    except:
-        return None
+    RSIvalue = talib.RSI(candles['close'][:length+1], timeperiod=length)
+    RSIvalue = (RSIvalue[10] - 50) * 2
+    return RSIvalue * __values['multiplier']
     
 def __get_averages(candles, length):
     gain = 0

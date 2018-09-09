@@ -8,7 +8,7 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "/home/manuel/projects/CryptoPrinter/main.py"
+            "program": "/home/manuel/projects/CryptoPrinterEditor/main.py"
         },
         {
             "name": "Python: Attach",

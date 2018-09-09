@@ -1,6 +1,6 @@
 <printerTemplate>
   <version>0.1</version>
-  <tradingSymbol>BTCUSDT</tradingSymbol>
+  <tradingSymbol>BTC/USD</tradingSymbol>
   <tradingInterval>1m</tradingInterval>
   <indicators>
     <BollingerBands>

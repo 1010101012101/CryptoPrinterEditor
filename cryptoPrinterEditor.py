@@ -1,16 +1,17 @@
 import os
 import sys
-import Candle_Manager
-import Indicator_Manager
-import File_Loader
-import InstanceHolder
 import queue
-import XML_Writer
-import os
+import talib
+
+import libs.Candle_Manager as Candle_Manager
+import libs.Indicator_Manager as Indicator_Manager
+import libs.File_Loader as File_Loader
+import libs.InstanceHolder as InstanceHolder
+import libs.API_Manager as API_Manager
+import libs.XML_Writer as XML_Writer
+from libs.Ui_mainUI import Ui_MainWindow
 
 from PyQt5 import QtCore,QtWidgets,QtGui
-from Ui_mainUI import Ui_MainWindow
-import APIs._Binance_API
 
 class MainWindow(Ui_MainWindow,QtWidgets.QMainWindow):
 
@@ -24,16 +25,17 @@ class MainWindow(Ui_MainWindow,QtWidgets.QMainWindow):
         self.queueTimer.start(100)
         self.workqueue = queue.Queue()
         self.plot_button.pressed.connect(self.plot_chart)
-        self.length_slider.valueChanged.connect(self.on_value_changed)
-        self.interval_comboBox.addItems(['1m','3m','5m','15m','30m','1h','12h','1d','1w','1M'])
+        self.interval_comboBox.addItems(['1m','5m','1h','12h','1d','1w','1M'])
         self.indicatoroverview_view.add_items(Indicator_Manager.get_indicator_names())
         self.saveindicator_button.pressed.connect(self.on_save_indicator)
         self.save_button.pressed.connect(self.save_data)
-        self.path_input.setText(os.path.dirname(os.path.realpath(__file__))+ "/IndicatorTemplates/")
+        self.path_input.setText(os.path.dirname(os.path.realpath(__file__)) + "/IndicatorTemplates/")
+        self.indicators_combobox.addItems(talib.get_functions())
         self.currentStream = ''
         self.lastindicator = "Overview"
         self.add_queueitem('init_plotter')
         self.add_queueitem('plot_chart')
+        API_Manager.set_newexchange("binance","","")
         self.show()
 
     def on_timertick(self):
@@ -85,12 +87,13 @@ class MainWindow(Ui_MainWindow,QtWidgets.QMainWindow):
 
     def reinitiate_pricestream(self, symbol):
         if symbol != self.currentStream:
-            Candle_Manager.close_pricestream()
-            Candle_Manager.initiate_pricestream(symbol)
+            API_Manager.close_klinestream()        
+            API_Manager.open_klinesstream(symbol)
             self.currentStream = symbol
-    
-    def on_value_changed(self):
-        self.length_label.setText(str(self.length_slider.value()))
+
+    def on_addIndicatorbutton_pressed(self):
+        pass
+        
 
     def on_save_indicator(self):
         self.indicatorsettings_view.save_settings()

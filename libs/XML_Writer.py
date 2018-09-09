@@ -1,6 +1,7 @@
 from lxml import etree as ET
-import Indicator_Manager
-import InstanceHolder
+
+import libs.Indicator_Manager as Indicator_Manager
+import libs.InstanceHolder as InstanceHolder
 
 def save_data(path, symbol, timeframe):
     indicatordata = Indicator_Manager.get_activeindicators()
